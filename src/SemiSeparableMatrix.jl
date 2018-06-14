@@ -11,16 +11,16 @@
 ## Constructors
 
 struct SemiSeparableMatrix{T} <: AbstractMatrix{T}
-    U::LowRankMatrix{T}
     L::LowRankMatrix{T}
-    bu::Int
+    U::LowRankMatrix{T}
     bl::Int
+    bu::Int
 
-    function SemiSeparableMatrix(U::LowRankMatrix{T}, L::LowRankMatrix{T}, bu, bl) where T
-        Um, Un = size(U)
+    function SemiSeparableMatrix(L::LowRankMatrix{T}, U::LowRankMatrix{T}, bl, bu) where T
         Lm, Ln = size(L)
+        Um, Un = size(U)
         @assert Um == Un == Lm == Ln && Un >= bu+1 && Lm >= bl+1
-        new{T}(U, L, bu, bl)
+        new{T}(L, U, bl, bu)
     end
 end
 
@@ -30,4 +30,8 @@ end
 
 size(S::SemiSeparableMatrix) = size(S.L)
 
-## getindex
+function getindex(S::SemiSeparableMatrix{T}, k::Int, j::Int)  where T
+    k-j ≥ S.bl && return S.L[k,j]
+    j-k ≥ S.bu && return S.U[k,j]
+    return zero(T)
+end

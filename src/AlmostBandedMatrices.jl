@@ -63,7 +63,7 @@ else
    import Base.LAPACK: liblapack
    import Base: lufact, cholfact, cholfact!, norm, diag, eigvals!, eigvals,
                 At_mul_B, Ac_mul_B, A_mul_B!, qr, qrfact, axpy!
-   import Base: sparse
+   import Base: sparse, rank
 
    rmul!(A::AbstractArray, b::Number) = scale!(A, b)
    lmul!(a::Number, B::AbstractArray) = scale!(a, B)
@@ -73,7 +73,7 @@ end
 import Base: getindex, setindex!, *, +, -, ==, <, <=, >, >=, /, ^, \,
              transpose, showerror, reindex, checkbounds, @propagate_inbounds
 
-import Base: convert, size, view, indices, unsafe_indices, indices1, first,
+import Base: convert, view, indices, unsafe_indices, indices1, first,
              last, size, length, unsafe_length, start, next, done, step,
              to_indices, to_index, indices, show, fill!, copy!, promote_op
 
