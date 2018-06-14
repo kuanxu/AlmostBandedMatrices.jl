@@ -121,6 +121,9 @@ Base.getindex(L::LowRankMatrix,ir::Range,j::Int) = eltype(L)[L[i,j] for i=ir]
 Base.getindex(L::LowRankMatrix,ir::Range,jr::Range) = eltype(L)[L[i,j] for i=ir,j=jr]
 Base.full(L::LowRankMatrix)=L[1:size(L,1),1:size(L,2)]
 
+Base.tril(L::LowRankMatrix, k::Int = 0) = tril(Matrix(L), k)
+Base.triu(L::LowRankMatrix, k::Int = 0) = triu(Matrix(L), k)
+
 # constructors
 
 for op in (:zeros,:eye,:ones,:rand)

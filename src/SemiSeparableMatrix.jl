@@ -8,6 +8,8 @@
 # [1] Chandrasekaran and Gu, Fast and stable algorithms for banded plus
 # Semiseparable systems of linear equations, SIMAX, 25 (2003), pp. 373-384.
 
+## Constructors
+
 struct SemiSeparableMatrix{T} <: AbstractMatrix{T}
     U::LowRankMatrix{T}
     L::LowRankMatrix{T}
@@ -22,4 +24,10 @@ struct SemiSeparableMatrix{T} <: AbstractMatrix{T}
     end
 end
 
+function Base.convert(::Type{Matrix}, S::SemiSeparableMatrix)
+    return triu(Matrix(S.U), S.bu+1) + tril(Matrix(S.L), -S.bl-1)
+end
+
 size(S::SemiSeparableMatrix) = size(S.L)
+
+## getindex
